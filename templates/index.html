@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Recommender System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-6">Outfit Recommender System</h1>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Select an Item</h2>
+            <form method="POST" action="/recommend" class="mb-6">
+                <select name="item_id" class="w-full p-2 border rounded">
+                    {% for item in items %}
+                        <option value="{{ item.item_id }}" {% if item.item_id == selected_item_id %}selected{% endif %}>
+                            {{ item.type|capitalize }} - {{ item.color|capitalize }} - {{ item.material|capitalize }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="mt-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Get Recommendations</button>
+            </form>
+            {% if recommendations %}
+                <h2 class="text-xl font-semibold mb-4">Recommended Outfits</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for rec in recommendations %}
+                        <div class="bg-gray-50 p-4 rounded-lg shadow">
+                            <p><strong>Item ID:</strong> {{ rec.item_id }}</p>
+                            <p><strong>Type:</strong> {{ rec.type|capitalize }}</p>
+                            <p><strong>Color:</strong> {{ rec.color|capitalize }}</p>
+                            <p><strong>Material:</strong> {{ rec.material|capitalize }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
